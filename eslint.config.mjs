@@ -11,6 +11,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   ...compat.extends(
     "next/core-web-vitals",
