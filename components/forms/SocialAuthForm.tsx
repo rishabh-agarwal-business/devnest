@@ -2,16 +2,16 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import Image from 'next/image'
-import { AUTH_TYPE } from '@/type'
 import { LOGIN_TYPES } from '@/enum'
 import { signIn } from 'next-auth/react';
 import ROUTES from '@/constants/routes';
 import { toast } from 'sonner';
+import { AuthType } from '@/type';
 
 const BUTTON_CLASS = 'background-dark400_light900 body-medium text-dark200_light800 min-h-12 flex-1 rounded-2 px-4 py-3.5'
 
 const SocialAuthForm = () => {
-    const handleLogin = async (provider: AUTH_TYPE) => {
+    const handleLogin = async (provider: AuthType) => {
         try {
             await signIn(provider, {
                 callbackUrl: ROUTES.HOME
@@ -25,7 +25,7 @@ const SocialAuthForm = () => {
     }
 
     return (
-        <div className='mt-10 flex flex-wrap gap-2.5'>
+        <div className='mt-6 flex flex-wrap gap-2.5'>
             <Button className={BUTTON_CLASS} onClick={() => handleLogin(LOGIN_TYPES.GITHUB)}>
                 <Image
                     src="/icons/github.svg"
