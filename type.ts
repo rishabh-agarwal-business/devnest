@@ -1,0 +1,1 @@
+export type AUTH_TYPE = 'github' | 'google';
