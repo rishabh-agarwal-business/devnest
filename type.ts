@@ -23,3 +23,13 @@ export interface AuthFormProps<T extends FieldValues> {
     onSubmit: (data: T) => Promise<{ success: boolean }>;
     formType: FormType;
 }
+
+export type NavLinkProps = {
+    isMobileNav?: boolean
+}
+
+export type SideBarLink = {
+    imageUrl: string,
+    label: string,
+    route: string
+}

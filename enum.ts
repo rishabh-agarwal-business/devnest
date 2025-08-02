@@ -28,3 +28,23 @@ export enum BUTTON_STATES {
     LOGIN = 'Logging you in...',
     REGISTER = "Getting you registered..."
 }
+
+export enum SIDEBAR_IMAGE_LINKS {
+    HOME = "/icons/home.svg",
+    COMMUNITY = "/icons/users.svg",
+    COLLECTION = "/icons/star.svg",
+    FIND_JOBS = "/icons/suitcase.svg",
+    TAGS = "/icons/tag.svg",
+    PROFILE = "/icons/user.svg",
+    ASK_QUESTION = "/icons/question.svg"
+}
+
+export enum SIDEBAR_LABELS {
+    HOME = "Home",
+    COMMUNITY = "Communities",
+    COLLECTION = "Collections",
+    FIND_JOBS = "Find Jobs",
+    TAGS = "Tags",
+    PROFILE = "Profile",
+    ASK_QUESTION = "Ask a question"
+}
