@@ -33,3 +33,19 @@ export type SideBarLink = {
     label: string,
     route: string
 }
+
+export type TopQuestion = {
+    _id: string,
+    title: string
+}
+
+export type PopularTag = {
+    _id: string,
+    name: string,
+    questions: number,
+}
+
+export type TagProps = PopularTag & {
+    showCount?: boolean,
+    compact?: boolean
+}
