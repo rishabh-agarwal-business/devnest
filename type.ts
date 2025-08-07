@@ -1,5 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { ZodType } from "zod";
+// import ROUTES from "@/constants/routes";
+import ROUTES from "@/constants/routes";
 
 export type AuthType = 'github' | 'google';
 
@@ -48,4 +50,32 @@ export type PopularTag = {
 export type TagProps = PopularTag & {
     showCount?: boolean,
     compact?: boolean
+}
+
+export interface SearchProps {
+    route: RouteType;
+    imgSrc: string;
+    placeholder: string;
+    otherClasses?: string;
+}
+
+type StaticRouteKeys = {
+    [K in keyof typeof ROUTES]: typeof ROUTES[K] extends string ? K : never;
+}[keyof typeof ROUTES];
+
+export type RouteType = typeof ROUTES[StaticRouteKeys];
+
+export type UrlFormQUeryParams = {
+    params: string;
+    key: string;
+    value: string;
+}
+
+export type UrlRemoveQueryParams = {
+    params: string;
+    keysToRemove: string[];
+}
+
+export interface SearchParams {
+    searchParams: Promise<{ [key: string]: string }>
 }

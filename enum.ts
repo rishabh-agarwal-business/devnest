@@ -46,5 +46,5 @@ export enum SIDEBAR_LABELS {
     FIND_JOBS = "Find Jobs",
     TAGS = "Tags",
     PROFILE = "Profile",
-    ASK_QUESTION = "Ask a question"
+    ASK_QUESTION = "Ask Question"
 }
