@@ -1,3 +1,4 @@
+import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
@@ -191,10 +192,20 @@ const questions = [
 ];
 
 const Home = async ({ searchParams }: SearchParams) => {
-  const { query = '' } = await searchParams;
+  const { query = '', filter = '' } = await searchParams;
 
-  const filteredQuestions = questions.filter((question) =>
-    question.title.toLowerCase().includes(query?.toLowerCase()));
+  const filteredQuestions = questions.filter((question) => {
+    const queryMatch = query
+      ? question.title.toLowerCase().includes(query.toLowerCase())
+      : true;
+
+    const filterMatch = filter
+      ? question.tags.some(tag => tag.name.toLowerCase() === filter.toLowerCase())
+      : true;
+
+    return queryMatch && filterMatch;
+  });
+
 
   return (<>
     <section className="flex w-full flex-col-reverse
@@ -219,7 +230,8 @@ const Home = async ({ searchParams }: SearchParams) => {
         otherClasses='flex-1'
       />
     </section>
-    {/* Home Filter */}
+
+    <HomeFilter />
 
     <div className="mt-10 flex w-full flex-col gap-6">
       {
