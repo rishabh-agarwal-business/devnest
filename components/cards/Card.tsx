@@ -1,5 +1,5 @@
 import ROUTES from '@/constants/routes'
-import { TagProps } from '@/type'
+import { TagProps } from '@/types/global'
 import Link from 'next/link'
 import React from 'react'
 import { Badge } from '../ui/badge'

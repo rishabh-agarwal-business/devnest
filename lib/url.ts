@@ -1,4 +1,4 @@
-import { UrlFormQUeryParams, UrlRemoveQueryParams } from '@/type';
+import { UrlFormQUeryParams, UrlRemoveQueryParams } from '@/types/global';
 import qs from 'query-string';
 
 export const formUrlQuery = ({ params, key, value }: UrlFormQUeryParams) => {

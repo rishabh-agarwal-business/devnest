@@ -44,7 +44,7 @@ export type TopQuestion = {
 export type PopularTag = {
     _id: string,
     name: string,
-    questions: number,
+    questions?: number,
 }
 
 export type TagProps = PopularTag & {
@@ -78,4 +78,44 @@ export type UrlRemoveQueryParams = {
 
 export interface SearchParams {
     searchParams: Promise<{ [key: string]: string }>
+}
+
+export type Author = {
+    _id: string;
+    name: string;
+    image?: string;
+}
+
+export type Tag = {
+    _id: string;
+    name: string;
+    image?: string;
+}
+
+export interface Question {
+    _id: string;
+    title: string;
+    description: string;
+    author: Author;
+    tags: Tag[];
+    upvotes: number;
+    downvotes: number;
+    views: number;
+    answers: number;
+    createdAt: Date;
+}
+
+export type QuestionProps = {
+    question: Question;
+}
+
+export interface MetricProps {
+    imageUrl: string;
+    alt: string;
+    value: number | string;
+    title: string;
+    href?: string;
+    textStyles: string;
+    imgStyles?: string;
+    isAuthor?: boolean;
 }

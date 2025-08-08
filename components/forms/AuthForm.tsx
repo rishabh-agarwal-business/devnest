@@ -14,7 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { AuthFormProps } from "@/type"
+import { AuthFormProps } from "@/types/global"
 import { BUTTON_STATES, FORM_TYPES, INPUT_TYPES, RENDER_TYPES } from "@/enum"
 import { appendText, capitalizeFirstLetter } from "@/lib/utils"
 import Link from "next/link"

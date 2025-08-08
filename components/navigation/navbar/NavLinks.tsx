@@ -4,7 +4,7 @@ import { SheetClose } from '@/components/ui/sheet';
 import { sideBarLinks } from '@/constants'
 import ROUTES from '@/constants/routes';
 import { cn } from '@/lib/utils';
-import { NavLinkProps, SideBarLink } from '@/type'
+import { NavLinkProps, SideBarLink } from '@/types/global'
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

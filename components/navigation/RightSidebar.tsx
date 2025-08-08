@@ -1,5 +1,5 @@
 import ROUTES from '@/constants/routes';
-import { PopularTag, TopQuestion } from '@/type'
+import { PopularTag, TopQuestion } from '@/types/global'
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'

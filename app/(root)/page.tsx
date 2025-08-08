@@ -1,21 +1,21 @@
+import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import { SIDEBAR_LABELS } from "@/enum";
-import { SearchParams } from "@/type";
+import { Question, SearchParams } from "@/types/global";
 import Link from "next/link";
 import React from "react";
 
-const questions = [
+const now = new Date();
+
+const questions: Question[] = [
   {
     _id: "q1",
     title: "How does JavaScript's event loop work?",
     description: "I'm trying to understand how the event loop works with asynchronous code. Can someone explain it simply?",
-    author: {
-      _id: "u1",
-      name: "Alice"
-    },
+    author: { _id: "u1", name: "Alice Randome Van", image: "https://i.pravatar.cc/150?img=1" },
     tags: [
       { _id: "t1", name: "JavaScript" },
       { _id: "t2", name: "Async" }
@@ -23,17 +23,14 @@ const questions = [
     upvotes: 15,
     downvotes: 2,
     views: 120,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 5 * 60 * 1000),
     answers: 3
   },
   {
     _id: "q2",
     title: "What is a closure in JavaScript?",
     description: "I've heard about closures but can't understand how they work. Any simple examples?",
-    author: {
-      _id: "u2",
-      name: "Bob"
-    },
+    author: { _id: "u2", name: "Bob", image: "https://i.pravatar.cc/150?img=2" },
     tags: [
       { _id: "t1", name: "JavaScript" },
       { _id: "t3", name: "Closures" }
@@ -41,17 +38,14 @@ const questions = [
     upvotes: 23,
     downvotes: 1,
     views: 89,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000),
     answers: 5
   },
   {
     _id: "q3",
     title: "How to use React useEffect correctly?",
     description: "When should I use useEffect in React, and what should I avoid?",
-    author: {
-      _id: "u3",
-      name: "Charlie"
-    },
+    author: { _id: "u3", name: "Charlie", image: "https://i.pravatar.cc/150?img=3" },
     tags: [
       { _id: "t4", name: "React" },
       { _id: "t5", name: "Hooks" }
@@ -59,17 +53,14 @@ const questions = [
     upvotes: 30,
     downvotes: 3,
     views: 200,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000),
     answers: 2
   },
   {
     _id: "q4",
     title: "Best practices for writing CSS in large projects?",
     description: "How do you structure your CSS for large scale applications?",
-    author: {
-      _id: "u4",
-      name: "Diana"
-    },
+    author: { _id: "u4", name: "Diana", image: "https://i.pravatar.cc/150?img=4" },
     tags: [
       { _id: "t6", name: "CSS" },
       { _id: "t7", name: "Best Practices" }
@@ -77,17 +68,14 @@ const questions = [
     upvotes: 18,
     downvotes: 0,
     views: 77,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
     answers: 1
   },
   {
     _id: "q5",
     title: "How to optimize performance in React apps?",
     description: "What are some techniques for improving performance in React?",
-    author: {
-      _id: "u1",
-      name: "Alice"
-    },
+    author: { _id: "u1", name: "Alice", image: "https://i.pravatar.cc/150?img=5" },
     tags: [
       { _id: "t4", name: "React" },
       { _id: "t8", name: "Performance" }
@@ -95,17 +83,14 @@ const questions = [
     upvotes: 40,
     downvotes: 4,
     views: 321,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000),
     answers: 6
   },
   {
     _id: "q6",
     title: "What is the difference between let, const and var?",
     description: "Can someone explain the scope differences between let, const, and var in JavaScript?",
-    author: {
-      _id: "u5",
-      name: "Ethan"
-    },
+    author: { _id: "u5", name: "Ethan", image: "https://i.pravatar.cc/150?img=6" },
     tags: [
       { _id: "t1", name: "JavaScript" },
       { _id: "t9", name: "Variables" }
@@ -113,17 +98,14 @@ const questions = [
     upvotes: 22,
     downvotes: 1,
     views: 145,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 45 * 24 * 60 * 60 * 1000),
     answers: 4
   },
   {
     _id: "q7",
     title: "How to implement dark mode in a website?",
     description: "What are the different ways to implement a dark mode toggle?",
-    author: {
-      _id: "u6",
-      name: "Fiona"
-    },
+    author: { _id: "u6", name: "Fiona", image: "https://i.pravatar.cc/150?img=7" },
     tags: [
       { _id: "t6", name: "CSS" },
       { _id: "t10", name: "UX" }
@@ -131,17 +113,14 @@ const questions = [
     upvotes: 16,
     downvotes: 2,
     views: 103,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000),
     answers: 2
   },
   {
     _id: "q8",
     title: "What is debouncing in JavaScript?",
     description: "How does debouncing work and when should I use it?",
-    author: {
-      _id: "u2",
-      name: "Bob"
-    },
+    author: { _id: "u2", name: "Bob", image: "https://i.pravatar.cc/150?img=8" },
     tags: [
       { _id: "t1", name: "JavaScript" },
       { _id: "t11", name: "Debounce" }
@@ -149,17 +128,14 @@ const questions = [
     upvotes: 12,
     downvotes: 1,
     views: 99,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000),
     answers: 3
   },
   {
     _id: "q9",
     title: "How to use lodash debounce with React?",
     description: "Can someone provide a working example of using lodash debounce in a React input?",
-    author: {
-      _id: "u7",
-      name: "George"
-    },
+    author: { _id: "u7", name: "George", image: "https://i.pravatar.cc/150?img=9" },
     tags: [
       { _id: "t4", name: "React" },
       { _id: "t11", name: "Debounce" },
@@ -168,17 +144,14 @@ const questions = [
     upvotes: 25,
     downvotes: 2,
     views: 110,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 370 * 24 * 60 * 60 * 1000),
     answers: 3
   },
   {
     _id: "q10",
     title: "How to use TypeScript with React?",
     description: "What are the benefits and some common patterns for using TypeScript in React?",
-    author: {
-      _id: "u8",
-      name: "Hannah"
-    },
+    author: { _id: "u8", name: "Hannah", image: "https://i.pravatar.cc/150?img=10" },
     tags: [
       { _id: "t4", name: "React" },
       { _id: "t13", name: "TypeScript" }
@@ -186,7 +159,7 @@ const questions = [
     upvotes: 35,
     downvotes: 1,
     views: 210,
-    createdAt: new Date(),
+    createdAt: new Date(now.getTime() - 2 * 365 * 24 * 60 * 60 * 1000),
     answers: 7
   }
 ];
@@ -236,7 +209,7 @@ const Home = async ({ searchParams }: SearchParams) => {
     <div className="mt-10 flex w-full flex-col gap-6">
       {
         filteredQuestions.map((question) => (
-          <h1 key={question._id}>{question.title}</h1>
+          <QuestionCard key={question._id} question={question} />
         ))
       }
     </div>

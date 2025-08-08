@@ -1,5 +1,5 @@
 import { SIDEBAR_IMAGE_LINKS, SIDEBAR_LABELS } from "@/enum";
-import { SideBarLink } from "@/type";
+import { SideBarLink } from "@/types/global";
 import ROUTES from "./routes";
 
 export const sideBarLinks: SideBarLink[] = [

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import Image from 'next/image';
-import { SearchProps } from '@/type';
+import { SearchProps } from '@/types/global';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/url';
 
