@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { ZodType } from "zod";
-// import ROUTES from "@/constants/routes";
 import ROUTES from "@/constants/routes";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 
 export type AuthType = 'github' | 'google';
 
@@ -49,7 +49,10 @@ export type PopularTag = {
 
 export type TagProps = PopularTag & {
     showCount?: boolean,
-    compact?: boolean
+    compact?: boolean,
+    remove?: boolean,
+    isButton?: boolean,
+    handleRemove?: () => void
 }
 
 export interface SearchProps {
@@ -118,4 +121,10 @@ export interface MetricProps {
     textStyles: string;
     imgStyles?: string;
     isAuthor?: boolean;
+}
+
+export interface EditorProps {
+    value: string;
+    fieldChange: (value: string) => void;
+    editorRef: ForwardedRef<MDXEditorMethods> | null
 }
