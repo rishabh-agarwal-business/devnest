@@ -398,5 +398,8 @@ code {
 @layer base {
   :root {
     --radius: 0.5rem;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
   }
 }

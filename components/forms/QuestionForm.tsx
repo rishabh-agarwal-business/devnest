@@ -79,7 +79,7 @@ const QuestionForm = () => {
                 name={'title'}
                 render={({ field }) => (
                     <FormItem className="flex w-full flex-col">
-                        <FormLabel className="paragraph-semibold text-dark400_light800">
+                        <FormLabel className="paragraph-semibold text-dark400_light800 text-light-500">
                             Question Title <span className='text-primary-500'>*</span>
                         </FormLabel>
                         <FormControl>
@@ -103,7 +103,7 @@ const QuestionForm = () => {
                 name={'content'}
                 render={({ field }) => (
                     <FormItem className="flex w-full flex-col">
-                        <FormLabel className="paragraph-semibold text-dark400_light800">
+                        <FormLabel className="paragraph-semibold text-dark400_light800 text-light-500">
                             Detailed explanation of your problem {" "}
                             <span className='text-primary-500'>*</span>
                         </FormLabel>
@@ -126,7 +126,7 @@ const QuestionForm = () => {
                 name={'tags'}
                 render={({ field }) => (
                     <FormItem className="flex w-full flex-col">
-                        <FormLabel className="paragraph-semibold text-dark400_light800">
+                        <FormLabel className="paragraph-semibold text-dark400_light800 text-light-500">
                             Tags <span className='text-primary-500'>*</span>
                         </FormLabel>
                         <FormControl>
