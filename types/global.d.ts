@@ -2,6 +2,7 @@ import { FieldValues } from "react-hook-form";
 import { ZodType } from "zod";
 import ROUTES from "@/constants/routes";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import { Mongoose } from "mongoose";
 
 export type AuthType = 'github' | 'google';
 
@@ -127,4 +128,9 @@ export interface EditorProps {
     value: string;
     fieldChange: (value: string) => void;
     editorRef: ForwardedRef<MDXEditorMethods> | null
+}
+
+export interface MongooseCache {
+    conn: Mongoose | null;
+    promise: Promise<Mongoose> | null;
 }
