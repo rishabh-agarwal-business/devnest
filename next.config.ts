@@ -9,7 +9,8 @@ const nextConfig: NextConfig = {
         port: ''
       }
     ]
-  }
+  },
+  serverExternalPackages: ['pino', 'pino-pretty']
 };
 
 export default nextConfig;
