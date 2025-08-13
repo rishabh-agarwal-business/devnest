@@ -6,6 +6,7 @@ import { UserSchema } from "@/lib/validation";
 import { APIErrorResponse } from "@/types/global";
 import { NextRequest, NextResponse } from "next/server";
 
+// Fetching all users
 export async function GET() {
     try {
         await dbConnect();
