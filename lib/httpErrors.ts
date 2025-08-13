@@ -20,16 +20,28 @@ export class ValidationError extends RequestError {
         this.errors = fieldErrors;
     }
 
-    static formatMessage(errors: ErrorTypes): string {
+    static formatMessage(errors: Record<string, string[]>): string {
+        const simplifyMessage = (msg: string) => {
+            if (msg === 'Required' || msg.includes('expected string, received undefined')) {
+                return 'is required';
+            }
+            return msg;
+        };
+
         const formattedMessages = Object.entries(errors).map(([field, messages]) => {
             const fieldName = field.charAt(0).toUpperCase() + field.slice(1);
 
-            if (messages[0] === 'Required') return `${fieldName} is required`;
-            else return messages.join(' and');
+            if (!Array.isArray(messages) || messages.length === 0) {
+                return `${fieldName} has an unknown error`;
+            }
+
+            const simplified = messages.map(simplifyMessage).join(' and ');
+            return `${fieldName} ${simplified}`;
         });
 
         return formattedMessages.join(', ');
     }
+
 }
 
 export class NotFoundError extends RequestError {
