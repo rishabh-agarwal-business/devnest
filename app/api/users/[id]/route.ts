@@ -82,12 +82,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         // Validate the request body against the UserSchema
         const validData = UserSchema.partial().parse(body);
 
-        const user = await User.findByIdAndUpdate(id, {
-            $set: {
-                ...validData,
-                updatedAt: new Date()
-            }
-        }, { new: true }); // Replace with actual database query
+        const user = await User.findByIdAndUpdate(id, validData, { new: true }); // Replace with actual database query
 
         if (!user) throw new NotFoundError('User'); // If user not found, throw a 404 error
 
