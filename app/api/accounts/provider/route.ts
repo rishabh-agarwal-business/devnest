@@ -1,6 +1,7 @@
 import Account from "@/database/account.model";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/httpErrors";
+import dbConnect from "@/lib/mongoose";
 import { AccountSchema } from "@/lib/validation";
 import { APIErrorResponse } from "@/types/global";
 import { NextResponse } from "next/server";
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
     const { providerAccountId } = await request.json(); // Get the providerAccountId from the request body
 
     try {
+        await dbConnect();
         const validData = AccountSchema.partial().safeParse({ providerAccountId }); // Validate the provider
 
         // If the validation fails, throw a ValidationError
