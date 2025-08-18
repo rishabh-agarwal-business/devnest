@@ -1,12 +1,27 @@
 import { IUser } from "@/database/user.model";
 import { fetchHandler } from "./handlers/fetch";
 import { IAccount } from "@/database/account.model";
+import { LoginOAuthParams } from "@/types/action";
+import ROUTES from "@/constants/routes";
 
 // This file defines the API endpoints for the application.
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api";
 
 // The API object contains methods for interacting with the backend.
 export const api = {
+    auth: { // This section defines the API endpoints for authentication.
+        oAuthLogin: ({ user, provider, providerAccountId }: LoginOAuthParams) => {
+            return fetchHandler(`${API_BASE_URL}/auth/${ROUTES.LOGIN_WITH_OAUTH}`, { // Handles OAuth login
+                method: 'POST', // Use POST method to send data,
+                body: JSON.stringify({ // Send user data in the request body
+                    user,
+                    provider,
+                    providerAccountId,
+                }), // Convert the data to JSON format
+            });
+        }
+    },
+
     users: {
         getAll: () => fetchHandler(`${API_BASE_URL}/users`),
         getById: (id: string) => fetchHandler(`${API_BASE_URL}/users/${id}`),
@@ -25,7 +40,7 @@ export const api = {
         delete: (id: string) => fetchHandler(`${API_BASE_URL}/users/${id}`, { // delete a user by ID
             method: 'DELETE', // Use DELETE method to remove the user
         })
-    },
+    }, // users endpoint
 
     // This section defines the API endpoints for user accounts.
     accounts: {

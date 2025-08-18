@@ -1,3 +1,11 @@
+- If a user uses GitHub oAuth, we'll create an account containing GitHub oAuth info and then create
+a user with a GitHub name, username and image.
+- If a user uses Google oAuth, we'll create an account containing Google oAuth info and then create
+a user with a Google name, username and image.
+- If a user uses, GitHub oAuth first or Google oAuth first and then other later, we'll create
+that oAuth account and update user info to show the latest oAuth name and image. The username will
+stay as is once it has been created. It's won't fluctuate.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

@@ -10,7 +10,8 @@ const ROUTES = {
     REGISTER: "/register",
     QUESTION: (_id: string) => `/question/${_id}`,
     TAG_WITH_ID: (_id: string) => `tags/${_id}`,
-    PROFILE_WITH_ID: (_id: string) => `profile/${_id}`
+    PROFILE_WITH_ID: (_id: string) => `profile/${_id}`,
+    LOGIN_WITH_OAUTH: `login-with-oauth`
 }
 
 export default ROUTES;
