@@ -4,9 +4,40 @@ import Google from "next-auth/providers/google";
 import { api } from "./lib/api";
 import { ActionResponse, AuthType } from "./types/global";
 import { IAccountDoc } from "./database/account.model";
+import { IUserDoc } from "./database/user.model";
+import { LoginSchema } from "./lib/validation";
+import bcrypt from "bcryptjs";
+import Credentials from "next-auth/providers/credentials";
+import credentials from "next-auth/providers/credentials";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [GitHub, Google],
+    providers: [GitHub, Google, Credentials({
+        async authorize(credentials) { // Handles user authentication with credentials
+            console.log(credentials)
+            const validFields = LoginSchema.safeParse(credentials); // Validates the credentials against the schema
+
+            if (validFields.success) { // If validation is successful
+                const { email, password } = validFields.data; // Extracts email and password from the validated data
+                const { data: existingAccount } = (await api.accounts.getByProvider(email)) as ActionResponse<IAccountDoc>; // Gets account by email
+                if (!existingAccount) return null; // Returns null if account not found
+
+                const { data: existingUser } = (await api.users.getById(existingAccount.userId.toString())) as ActionResponse<IUserDoc>; // Gets user by ID
+                if (!existingUser) return null; // Returns null if user not found
+
+                const isValidPassword = await bcrypt.compare(password, existingAccount.password!); // Compares the provided password with the stored password
+                if (isValidPassword) {
+                    return {
+                        id: existingUser.id, // Returns user ID if password is valid
+                        name: existingUser.name,
+                        email: existingUser.email,
+                        username: existingUser.username,
+                        image: existingUser.image || '', // Returns user image or empty string if not available
+                    }
+                }
+            }
+            return null;
+        }
+    })],
     callbacks: { // Callbacks for NextAuth
         async session({ session, token }) { // Handles session management
             if (token) {

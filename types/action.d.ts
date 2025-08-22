@@ -8,3 +8,10 @@ export interface LoginOAuthParams {
         image?: string; // Optional URL to the user's profile image
     };
 }
+
+export interface AuthCredentials {
+    name: string; // User's full name
+    username: string; // User's username
+    email: string; // User's email address
+    password: string; // User's password
+}

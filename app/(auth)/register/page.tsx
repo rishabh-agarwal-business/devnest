@@ -1,6 +1,7 @@
 "use client";
 import AuthForm from '@/components/forms/AuthForm'
 import { FORM_TYPES } from '@/enum';
+import { registerWithCredentials } from '@/lib/actions/auth.action';
 import { RegisterSchema } from '@/lib/validation';
 import React from 'react'
 
@@ -15,10 +16,7 @@ const Register = () => {
         email: '',
         password: ''
       }}
-      onSubmit={(data) => Promise.resolve({
-        success: true,
-        data
-      })}
+      onSubmit={registerWithCredentials}
     />
   )
 }

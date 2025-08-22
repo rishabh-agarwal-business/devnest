@@ -1,10 +1,14 @@
+"use server";  // ensures this file only runs on server
+
 import { MongooseCache } from '@/types/global';
 import mongoose, { Mongoose } from 'mongoose';
 import logger from './logger';
 
-const MONGODB_URL = process.env.MONGODB_URI as string;
+const MONGODB_URI = process.env.MONGODB_URI as string;
 
-if (!MONGODB_URL) throw new Error('MONGODB_URL is not defined');
+if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI is not defined in .env.local");
+}
 
 declare global {
     var mongoose: MongooseCache;
@@ -22,12 +26,13 @@ if (!cached) {
 const dbConnect = async (): Promise<Mongoose> => {
     if (cached.conn) {
         logger.info('Using mongoose existing connection.');
+        console.log(cached.conn)
         return cached.conn;
     }
 
     if (!cached.promise) {
         cached.promise = mongoose
-            .connect(MONGODB_URL, {
+            .connect(MONGODB_URI, {
                 dbName: 'DevNext'
             })
             .then((result) => {

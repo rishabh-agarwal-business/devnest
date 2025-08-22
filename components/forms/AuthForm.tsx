@@ -14,11 +14,13 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { AuthFormProps } from "@/types/global"
+import { ActionResponse, AuthFormProps } from "@/types/global"
 import { BUTTON_STATES, FORM_TYPES, INPUT_TYPES, RENDER_TYPES } from "@/enum"
 import { appendText, capitalizeFirstLetter } from "@/lib/utils"
 import Link from "next/link"
 import ROUTES from "@/constants/routes"
+import { toast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 const AuthForm = <T extends FieldValues>({
     formType,
@@ -26,13 +28,30 @@ const AuthForm = <T extends FieldValues>({
     defaultValues,
     onSubmit
 }: AuthFormProps<T>) => {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues: defaultValues as DefaultValues<T>
     })
 
-    const handleSubmit: SubmitHandler<T> = async => {
-        // TODO: Authenticate User
+    const handleSubmit: SubmitHandler<T> = async (data) => {
+        const result = (await onSubmit(data)) as ActionResponse;
+        console.log(result)
+        if (result?.success) {
+            toast({
+                title: "Success",
+                description: formType === FORM_TYPES.LOGIN ? "Logged in successfully!" : "Registered successfully!"
+            });
+
+            router.push(ROUTES.HOME);
+        } else {
+            toast({
+                title: `Error ${result.status}`,
+                description: result?.error?.message || "An error occurred. Please try again.",
+                variant: "destructive"
+            })
+        }
     };
 
     const buttonText = formType === FORM_TYPES.LOGIN ? FORM_TYPES.LOGIN : FORM_TYPES.REGISTER;

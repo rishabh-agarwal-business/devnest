@@ -24,7 +24,7 @@ export type RegisterDefaultValues = {
 export interface AuthFormProps<T extends FieldValues> {
     schema: ZodType<T, T>;
     defaultValues: T;
-    onSubmit: (data: T) => Promise<{ success: boolean }>;
+    onSubmit: (data: T) => Promise<ActionResponse>;
     formType: FormType;
 }
 

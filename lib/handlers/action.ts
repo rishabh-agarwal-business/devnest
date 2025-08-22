@@ -12,7 +12,7 @@ type ActionOptions<T> = {
     authorize?: boolean;
 }
 
-// 1. Checking wetehr the schema and params are provided and validating them using Zod.
+// 1. Checking wether the schema and params are provided and validating them using Zod.
 // 2. If validation fails, it returns a ValidationError with field errors.
 // 3. If authorization is required, it checks for a valid session.
 // 4. If the session is not found, it returns an UnauthorizedError.
@@ -29,7 +29,9 @@ async function action<T>({ // generic type T for action parameters
         try {
             schema.parse(params); // parse the parameters using the schema
         } catch (error) {
+            console.log(error)
             if (error instanceof ZodError) { // check if error is a ZodError
+                console.log(error.flatten().fieldErrors as Record<string, string[]>)
                 return new ValidationError(error.flatten().fieldErrors as Record<string, string[]>); // return a ValidationError with field errors 
             } else {
                 throw new Error('Schema validation failed'); // throw a generic error if it's not a ZodError
@@ -38,17 +40,16 @@ async function action<T>({ // generic type T for action parameters
     }
 
     let session: Session | null = null; // initialize session as null
-
     if (authorize) { // check if authorization is required
         session = await auth(); // get the session using the auth function
 
         if (!session) { // if session is not found
-            return new UnauthorizedError("Unauthorized"); // return an Unauthorized error
+            return new UnauthorizedError(); // return an Unauthorized error
         }
     }
 
+    console.log(params, schema)
     await dbConnect(); // connect to the database
-
     return { params, session }; // return the parameters and session
 }
 

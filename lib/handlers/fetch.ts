@@ -2,6 +2,7 @@ import { ActionResponse } from "@/types/global";
 import logger from "../logger";
 import handleError from "./error";
 import { RequestError } from "../httpErrors";
+import { config } from "zod";
 
 export interface FetchOptions extends RequestInit {
     timeout?: number;
@@ -14,8 +15,7 @@ function isError(error: unknown): error is Error { // type guard to check if err
 
 // This function fetches data from a given URL with optional timeout and custom headers.
 export async function fetchHandler<T>(url: string, options: FetchOptions = {}): Promise<ActionResponse<T>> { // generic type T for response data
-    const { timeout = 5000, headers: customHeaders, ...restOptions } = options; // default timeout of 5000ms
-
+    const { timeout = 5000, headers: customHeaders = {}, ...restOptions } = options; // default timeout of 5000ms
     const controller = new AbortController(); // create an AbortController to handle timeouts
     const id = setTimeout(() => controller.abort(), timeout); // set a timeout to abort the request
 
@@ -37,6 +37,7 @@ export async function fetchHandler<T>(url: string, options: FetchOptions = {}): 
 
     try {
         const response = await fetch(url, config); // make the fetch request with the provided URL and options
+        console.log(response)
         clearTimeout(id); // clear the timeout if the request completes successfully
 
         if (!response.ok) {
@@ -46,6 +47,7 @@ export async function fetchHandler<T>(url: string, options: FetchOptions = {}): 
         return await response.json(); // parse and return the JSON response
 
     } catch (err) {
+        console.log(err)
         const error = isError(err) ? err : new Error("An unknown error occurred"); // check if error is an instance of Error
 
         if (error.name === "AbortError") {
