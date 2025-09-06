@@ -1,6 +1,7 @@
 "use client";
 import AuthForm from '@/components/forms/AuthForm'
 import { FORM_TYPES } from '@/enum'
+import { loginWithCredentials } from '@/lib/actions/auth.action';
 import { LoginSchema } from '@/lib/validation';
 import React from 'react'
 
@@ -13,10 +14,7 @@ const Login = () => {
         email: '',
         password: ''
       }}
-      onSubmit={(data) => Promise.resolve({
-        success: true,
-        data
-      })}
+      onSubmit={loginWithCredentials}
     />
   )
 }
