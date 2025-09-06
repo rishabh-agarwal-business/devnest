@@ -5,7 +5,8 @@ export enum LOGIN_TYPES {
 
 export enum FORM_TYPES {
     LOGIN = 'LOGIN',
-    REGISTER = 'REGISTER'
+    REGISTER = 'REGISTER',
+    LOGOUT = 'LOGOUT'
 }
 
 export enum AUTH_TYPES {

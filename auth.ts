@@ -8,12 +8,11 @@ import { IUserDoc } from "./database/user.model";
 import { LoginSchema } from "./lib/validation";
 import bcrypt from "bcryptjs";
 import Credentials from "next-auth/providers/credentials";
-import credentials from "next-auth/providers/credentials";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [GitHub, Google, Credentials({
         async authorize(credentials) { // Handles user authentication with credentials
-            console.log(credentials)
+
             const validFields = LoginSchema.safeParse(credentials); // Validates the credentials against the schema
 
             if (validFields.success) { // If validation is successful
@@ -45,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return session; // Returns the updated session
         },
-        async jwt({ token, user, account }) { // Handles JWT token creation
+        async jwt({ token, account }) { // Handles JWT token creation
             if (account) {
                 const { data: existingAccount, success } = (await api.accounts.getByProvider( // Gets account by provider
                     account.type === 'credentials' ? // Gets account by email for credentials
@@ -72,7 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 image: user.image!,
                 username: account.provider === 'github' ? // Sets username based on GitHub login
                     (profile?.login as string) : // Sets username based on GitHub login
-                    (user.name?.toLowerCase() as string), // Sets username based on provider
+                    (user.email?.split("@")[0] || user.name?.toLowerCase() || ""), // Sets username based on provider
             };
 
             const { success } = (await api.auth.oAuthLogin({

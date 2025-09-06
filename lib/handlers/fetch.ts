@@ -37,7 +37,6 @@ export async function fetchHandler<T>(url: string, options: FetchOptions = {}): 
 
     try {
         const response = await fetch(url, config); // make the fetch request with the provided URL and options
-        console.log(response)
         clearTimeout(id); // clear the timeout if the request completes successfully
 
         if (!response.ok) {

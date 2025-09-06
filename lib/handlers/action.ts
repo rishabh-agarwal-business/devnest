@@ -31,7 +31,6 @@ async function action<T>({ // generic type T for action parameters
         } catch (error) {
             console.log(error)
             if (error instanceof ZodError) { // check if error is a ZodError
-                console.log(error.flatten().fieldErrors as Record<string, string[]>)
                 return new ValidationError(error.flatten().fieldErrors as Record<string, string[]>); // return a ValidationError with field errors 
             } else {
                 throw new Error('Schema validation failed'); // throw a generic error if it's not a ZodError
@@ -48,7 +47,6 @@ async function action<T>({ // generic type T for action parameters
         }
     }
 
-    console.log(params, schema)
     await dbConnect(); // connect to the database
     return { params, session }; // return the parameters and session
 }

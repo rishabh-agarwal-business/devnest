@@ -29,7 +29,8 @@ export interface AuthFormProps<T extends FieldValues> {
 }
 
 export type NavLinkProps = {
-    isMobileNav?: boolean
+    isMobileNav?: boolean;
+    userId?: string;
 }
 
 export type SideBarLink = {
@@ -144,6 +145,13 @@ export type ActionResponse<T = null> = {
         details?: Record<string, string[]>;
     },
     status?: number;
+}
+
+export type UserProps = {
+    id: string;
+    name: string;
+    imageUrl?: string;
+    className?: string;
 }
 
 export type SuccessResponse<T = null> = ActionResponse<T> & { success: true; }
