@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 import { AuthCredentials } from "@/types/action";
 import { ActionResponse, ErrorResponse } from "@/types/global";
@@ -25,10 +25,10 @@ export async function registerWithCredentials(params: AuthCredentials): Promise<
 
     try {
         const existingUser = await User.findOne({ email }).session(session); // Check if a user with the provided email already exists
-        if (!existingUser) throw new Error("User with this email already exists"); // If a user exists, throw an error
+        if (existingUser) throw new Error("User with this email already exists"); // If a user exists, throw an error
 
         const existingUsername = await User.findOne({ username }).session(session); // Check if a user with the provided username already exists
-        if (!existingUsername) throw new Error("Username already exists"); // If a username exists, throw an error
+        if (existingUsername) throw new Error("Username already exists"); // If a username exists, throw an error
 
         const hashedPassword = await bcrypt.hash(password, 12); // Hash the password using bcrypt with a salt rounds of 10
 
