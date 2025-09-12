@@ -52,7 +52,7 @@ export const RegisterSchema = z.object({
         }),
 });
 
-export const AskQuestion = z.object({
+export const AskQuestionSchema = z.object({
     title: z
         .string()
         .min(5, { message: 'Title is required' })

@@ -15,3 +15,9 @@ export interface AuthCredentials {
     email: string; // User's email address
     password: string; // User's password
 }
+
+export interface CreateQuestionParams {
+    title: string; // Title of the question
+    content: string; // Content/body of the question
+    tags: string[]; // Optional array of tags associated with the question
+}

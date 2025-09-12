@@ -21,13 +21,6 @@ export type RegisterDefaultValues = {
     password: string
 }
 
-export interface AuthFormProps<T extends FieldValues> {
-    schema: ZodType<T, T>;
-    defaultValues: T;
-    onSubmit: (data: T) => Promise<ActionResponse>;
-    formType: FormType;
-}
-
 export type NavLinkProps = {
     isMobileNav?: boolean;
     userId?: string;
@@ -58,18 +51,18 @@ export type TagProps = PopularTag & {
     handleRemove?: () => void
 }
 
+type StaticRouteKeys = {
+    [K in keyof typeof ROUTES]: typeof ROUTES[K] extends string ? K : never;
+}[keyof typeof ROUTES];
+
+export type RouteType = typeof ROUTES[StaticRouteKeys];
+
 export interface SearchProps {
     route: RouteType;
     imgSrc: string;
     placeholder: string;
     otherClasses?: string;
 }
-
-type StaticRouteKeys = {
-    [K in keyof typeof ROUTES]: typeof ROUTES[K] extends string ? K : never;
-}[keyof typeof ROUTES];
-
-export type RouteType = typeof ROUTES[StaticRouteKeys];
 
 export type UrlFormQUeryParams = {
     params: string;
@@ -147,11 +140,23 @@ export type ActionResponse<T = null> = {
     status?: number;
 }
 
+export interface AuthFormProps<T extends FieldValues> {
+    schema: ZodType<T, T>;
+    defaultValues: T;
+    onSubmit: (data: T) => Promise<ActionResponse>;
+    formType: FormType;
+}
+
 export type UserProps = {
     id: string;
     name: string;
     imageUrl?: string;
     className?: string;
+}
+
+export interface RouteParams {
+    params: Promise<Record<string, string>>; // Dynamic route parameters
+    searchParams: Promise<Record<string, string>>; // Query parameters
 }
 
 export type SuccessResponse<T = null> = ActionResponse<T> & { success: true; }

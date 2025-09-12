@@ -1,7 +1,8 @@
 "use client"
-import { AskQuestion } from '@/lib/validation'
+import { AskQuestionSchema } from '@/lib/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useRef } from 'react'
+import { ReloadIcon } from '@radix-ui/react-icons';
+import React, { useRef, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
@@ -12,16 +13,21 @@ import { MDXEditorMethods } from '@mdxeditor/editor'
 import dynamic from 'next/dynamic'
 import z from 'zod';
 import TagCard from '../cards/Card'
-import { Tag } from '@/types/global'
+import { createQuestion } from '@/lib/actions/question.action'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import ROUTES from '@/constants/routes'
 
 const Editor = dynamic(() => import('@/components/editor'), {
     ssr: false
 });
 
 const QuestionForm = () => {
+    const [isPending, startTransition] = useTransition();
     const editorRef = useRef<MDXEditorMethods>(null);
-    const form = useForm<z.infer<typeof AskQuestion>>({
-        resolver: zodResolver(AskQuestion),
+    const router = useRouter();
+    const form = useForm<z.infer<typeof AskQuestionSchema>>({
+        resolver: zodResolver(AskQuestionSchema),
         defaultValues: {
             title: '',
             content: '',
@@ -65,14 +71,22 @@ const QuestionForm = () => {
         }
     }
 
-    const createQuestion = (data: z.infer<typeof AskQuestion>) => {
-        console.log(data)
+    const handleCreateQuestion = async (data: z.infer<typeof AskQuestionSchema>) => {
+        startTransition(async () => {
+            const result = await createQuestion(data); // Call the createQuestion action with form data
+            if (result.success) {
+                toast.success('Question created successfully!');
+                if (result.data && result.data?._id) router.push(ROUTES.QUESTION(result.data._id));
+            } else {
+                toast.error(result?.error?.message || 'Failed to create question. Please try again.');
+            }
+        })
     }
 
     return <Form {...form}>
         <form
             className='flex w-full flex-col gap-10'
-            onSubmit={form.handleSubmit(createQuestion)}
+            onSubmit={form.handleSubmit(handleCreateQuestion)}
         >
             <FormField
                 control={form.control}
@@ -91,7 +105,7 @@ const QuestionForm = () => {
                                 border italic"
                             />
                         </FormControl>
-                        <FormDescription className='body-regular text-light-500 mt-2.5'>
+                        <FormDescription className='body-regular mt-2.5 text-light-500'>
                             Provide enough detail so the person reading knows exactly what you’re asking.
                         </FormDescription>
                         <FormMessage />
@@ -114,7 +128,7 @@ const QuestionForm = () => {
                                 fieldChange={field.onChange}
                             />
                         </FormControl>
-                        <FormDescription className='body-regular text-light-500 mt-2.5'>
+                        <FormDescription className='body-regular mt-2.5 text-light-500'>
                             Give background, context, and any relevant examples or code so others can fully understand your situation.
                         </FormDescription>
                         <FormMessage />
@@ -157,7 +171,7 @@ const QuestionForm = () => {
                                 }
                             </div>
                         </FormControl>
-                        <FormDescription className='body-regular text-light-500 mt-2.5'>
+                        <FormDescription className='body-regular mt-2.5 text-light-500'>
                             Add up to 3 tags to describe what your question is about. You need
                             to press enter to add tag.
                         </FormDescription>
@@ -169,9 +183,19 @@ const QuestionForm = () => {
             <div className='mt-2 flex justify-end'>
                 <Button
                     type='submit'
-                    className='primary-gradient !text-light-900 w-fit'
+                    disabled={isPending}
+                    className='primary-gradient w-fit !text-light-900'
                 >
-                    {SIDEBAR_LABELS.ASK_QUESTION}
+                    {isPending ? (
+                        <>
+                            <ReloadIcon className='mr-2 size-4 animate-spin' />
+                            <span>Creating Question</span>
+                        </>
+                    ) : (
+                        <>
+                            {SIDEBAR_LABELS.ASK_QUESTION}
+                        </>
+                    )}
                 </Button>
             </div>
         </form>
